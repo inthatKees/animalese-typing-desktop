@@ -27,8 +27,15 @@
       "icon": "assets/images/icon.png"
     },
     "mac": {
-      "target": "dmg",
-      "icon": "assets/images/icon.png"
+      "target": [
+        {
+          "target": "dmg",
+          "arch": ["x64", "arm64"]
+        }
+      ],
+      "icon": "assets/images/icon.png",
+      "category": "public.app-category.utilities",
+      "darkModeSupport": true
     }
   },
   "license": "MIT",
@@ -54,7 +61,8 @@
       "linux"
     ],
     "arches": [
-      "x64"
+      "x64",
+      "arm64"
     ]
   }
 }

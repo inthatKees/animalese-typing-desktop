@@ -78,9 +78,14 @@ function createPopup() {
     
     bgwin.on('close', function (e) {
         if (!app.isQuiting) {
-            if (process.platform === 'darwin') app.dock.hide();
-            e.preventDefault();
-            bgwin.hide();
+            if (process.platform === 'darwin') {
+                app.dock.hide();
+                e.preventDefault();
+                bgwin.hide();
+            } else {
+                e.preventDefault();
+                bgwin.hide();
+            }
         }
         return false;
     });
@@ -89,12 +94,8 @@ function createPopup() {
         bgwin = null;
     });
 
-    // bgwin.on('blur', () => {
-    //     bgwin.close();
-    // });
-
     bgwin.webContents.on('before-input-event', (e, input) => {
-        if (input.control && input.shift && input.key.toLowerCase() === 'i') {
+        if ((process.platform === 'darwin' ? input.meta : input.control) && input.shift && input.key.toLowerCase() === 'i') {
             const wc = bgwin.webContents;
             if (wc.isDevToolsOpened()) wc.closeDevTools();
             else  wc.openDevTools({ mode: 'detach' });
@@ -102,7 +103,6 @@ function createPopup() {
         }
     });
 }
-
 
 function createTrayIcon() {
     // prevent dupe tray icons
@@ -118,7 +118,7 @@ function createTrayIcon() {
                     bgwin.show();
                     bgwin.focus();
                 }
-            } //TODO: make a settings window
+            }
         },
         {
             label: 'Run on startup',
@@ -140,6 +140,11 @@ function createTrayIcon() {
             }
         }
     ]);
+
+    if (process.platform === 'darwin') {
+        app.dock.hide();
+    }
+
     tray.on('click', () => {
         if (bgwin) {
             bgwin.show();
