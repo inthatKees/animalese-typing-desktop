@@ -40,6 +40,10 @@
       "gatekeeperAssess": false,
       "entitlements": "build/entitlements.mac.plist",
       "entitlementsInherit": "build/entitlements.mac.plist"
+    },
+    "linux": {
+      "target": ["AppImage"],
+      "icon": "assets/images/icon.png"
     }
   },
   "license": "MIT",
@@ -53,7 +57,7 @@
   },
   "devDependencies": {
     "electron": "^25.9.8",
-    "electron-builder": "~24.13.3"
+    "electron-builder": "^24.13.3"
   },
   "iohook": {
     "targets": [
